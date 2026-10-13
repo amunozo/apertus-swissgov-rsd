@@ -25,3 +25,9 @@ build/
 .DS_Store
 .idea/
 .vscode/
+
+# Downloaded data and official evaluation code (see src/official_eval/fetch.py)
+cache/
+
+# Kaggle run outputs (logs, large artefacts)
+kaggle/outputs/
