@@ -1,0 +1,11 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Heatmaps</title><style>
+:root{--bg:#fff;--fg:#1a1a1a;--muted:#666;--gold:#d9480f;--model:#1c7ed6;--empty:#f1f3f5;--grey:#adb5bd;--line:#dee2e6}
+@media (prefers-color-scheme:dark){:root{--bg:#16181d;--fg:#e6e6e6;--muted:#9aa0a6;--gold:#ff922b;--model:#4dabf7;--empty:#2a2e36;--grey:#555b66;--line:#333842}}
+body{background:var(--bg);color:var(--fg);font:15px/1.4 system-ui,sans-serif;max-width:1100px;margin:0 auto;padding:16px}
+h1{font-size:1.3rem}h2{font-size:1.1rem;margin-top:1.6em}.mean,.legend,.note{color:var(--muted);font-size:.9rem}
+table{border-collapse:collapse}td,th{padding:3px 10px;border-bottom:1px solid var(--line);text-align:left}
+.text{display:flex;flex-wrap:wrap;gap:6px 3px}.t{display:inline-block;min-width:8px}
+.t b{display:block;font-weight:400;font-size:.9rem;white-space:nowrap}.t i{display:block;height:5px;margin-top:1px;border-radius:1px}
+.sw{display:inline-block;width:3.5em;height:.8em;vertical-align:middle;border:1px solid var(--line)}
+a{color:var(--model)}
+</style></head><body><h1>Dev heatmaps</h1><p class="note">Gold vs DiffAlign cond raw L14 +smooth7 vs -gain sum +smooth7, SwissGov-RSD dev only.</p><table><tr><th>doc</th><th>pair</th><th>words (EN / other)</th><th>gold mean</th><th>why selected</th></tr><tr><td><a href="admin_de_127.html">admin_de_127</a></td><td>EN-DE</td><td>201 / 656</td><td>0.615</td><td>high gold mean</td></tr><tr><td><a href="admin_fr_159.html">admin_fr_159</a></td><td>EN-FR</td><td>384 / 403</td><td>0.002</td><td>gold mean near zero</td></tr><tr><td><a href="admin_it_9.html">admin_it_9</a></td><td>EN-IT</td><td>501 / 718</td><td>0.248</td><td>long contiguous gold span</td></tr><tr><td><a href="admin_it_209.html">admin_it_209</a></td><td>EN-IT</td><td>170 / 198</td><td>0.167</td><td>DiffAlign does badly despite non-trivial gold</td></tr></table></body></html>
