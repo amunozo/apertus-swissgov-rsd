@@ -1,0 +1,9 @@
+.git
+.venv
+cache
+outputs
+kaggle
+docs
+tests
+.pytest_cache
+**/__pycache__

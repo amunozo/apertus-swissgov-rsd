@@ -1,9 +1,16 @@
-.PHONY: run eval-reference
+.PHONY: run eval-reference test
 
-# Replace with the command that starts the project in a Docker container,
-# e.g. `docker compose up`. It must work from a clean checkout.
+IMAGE ?= swissgov-rsd
+
+# Builds the CPU Docker image (fetches the official evaluation code at build
+# time) and runs rsd.pipeline in it. Results appear in ./outputs/.
 run:
-	@echo "make run is not implemented yet — edit this Makefile"; exit 1
+	docker build -t $(IMAGE) .
+	mkdir -p outputs
+	docker run --rm --user $$(id -u):$$(id -g) -v "$(CURDIR)/outputs:/app/outputs" $(IMAGE)
+
+test:
+	uv run pytest
 
 # Data and evaluation layer, dev split only. Needs uv and network access on
 # the first run. Checks that the official script and src/rsd/metrics.py

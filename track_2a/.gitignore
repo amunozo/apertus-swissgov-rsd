@@ -31,3 +31,6 @@ cache/
 
 # Kaggle run outputs (logs, large artefacts)
 kaggle/outputs/
+
+# make run results
+outputs/

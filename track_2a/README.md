@@ -34,6 +34,36 @@ will run it, without relying on anything already installed on your machine.
 
 Requirements: `runtime, hardware, API keys, model weights`
 
+## Reproduce
+
+```bash
+make run
+```
+
+Needs Docker and network access for the build (the image downloads the
+official evaluation code and the dev data from GitHub and Hugging Face at build
+time). It runs on CPU in about 1 minute, with an image of about 1 GB. No GPU,
+no model weights, no API key and no LLM endpoint are used.
+
+What it does:
+
+1. Fits the scalar head (logistic regression, shared model, feature set e,
+   lambda 1e-3) on cached Apertus features, with `python -m rsd.head fit-predict`.
+2. If `data/features_test_head.npz` exists, it trains on all of dev, predicts
+   the test split, and scores it with the official evaluation script.
+3. If that file does not exist, it runs the dev check: fit on dev/train,
+   predict dev/val, score with the official script, and say so.
+
+Predictions (official format), the fitted head, and `scores.json` go to
+`outputs/` (gitignored).
+
+The GPU step that produces the features (Apertus forward passes) is not part of
+`make run`. It runs on Kaggle: see `kaggle/` and `docs/final_run.md`. The
+features it produces are committed in `data/` (compact export, under 100 MB).
+
+Other targets: `make test` (pytest) and `make eval-reference` (checks the
+official script against the paper's released scores).
+
 ## Data
 The `data/` directory must not exceed 100 MB.
 
