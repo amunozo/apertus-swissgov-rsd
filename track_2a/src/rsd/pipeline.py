@@ -6,7 +6,7 @@
    `python -m rsd.head fit-predict`.
 2. If data/features_test_head.npz exists: trains on all of dev, predicts the
    test split (--final) and scores it with the official script (final=True).
-   This branch downloads the test texts and gold from the official sources.
+   The Docker build has already fetched the test texts and gold (no network).
 3. Otherwise: dev check. Trains on dev/train, predicts dev/val, scores it with
    the official script (split dev/val), and says that test features are missing.
 

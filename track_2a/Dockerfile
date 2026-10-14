@@ -11,9 +11,9 @@ COPY src ./src
 COPY data ./data
 RUN uv sync --frozen --no-dev
 
-# Official evaluation code, dev gold and dev texts are fetched at build time,
-# so the dev run needs no network. (The test branch of `make run` downloads the
-# test texts and gold when it runs, see rsd/pipeline.py.)
-RUN python -m official_eval.fetch && chmod -R a+rwX /app/cache  # the run may be non-root and writes derived gold files
+# Official evaluation code, dev and test texts and gold are fetched at build
+# time (pinned commits), so `make run` needs no network. --test only downloads
+# files; the test split is still loaded and scored only by the final run.
+RUN python -m official_eval.fetch --test && chmod -R a+rwX /app/cache  # the run may be non-root and writes derived gold files
 
 CMD ["python", "-m", "rsd.pipeline", "--out", "outputs"]

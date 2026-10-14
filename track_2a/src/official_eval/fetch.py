@@ -7,12 +7,15 @@ official repo so the official script runs unchanged. We fetch instead of
 vendoring because the official repo has no LICENSE file for its evaluation/
 and scripts/ directories (see src/official_eval/README.md).
 
-Test-split hygiene: test data is only downloaded by fetch_test_gold(), which
-the final run calls. The released prediction files in the official repo hold
-dev and test rows together. We download them into memory and parse every row
-with json.loads to read its id; only dev rows are kept and written to disk.
-The test rows are dropped from memory without being used. The only
-test-related file on disk is the official list_to_drop.txt (ids only).
+Test-split hygiene: test data is only downloaded by the final run
+(fetch_test_gold(), hf_file(lang, "test")) or by `--test`, which the Dockerfile
+uses so that `make run` works offline. `--test` only saves files to cache/; it
+does not load or score them. The released prediction files in the official
+repo hold dev and test rows together. We download them into memory and parse
+every row with json.loads to read its id; only dev rows are kept and written to
+disk. The test rows are dropped from memory without being used. Without
+`--test`, the only test-related file on disk is the official list_to_drop.txt
+(ids only).
 """
 import json
 import sys
@@ -149,6 +152,11 @@ def fetch_system(name: str) -> str:
 if __name__ == "__main__":
     fetch_official()
     print("official code and dev data in", CACHE)
+    if "--test" in sys.argv:  # build-time download only, nothing is loaded or scored
+        for lang in LANGS:
+            hf_file(lang, "test")
+        fetch_test_gold()
+        print("test texts and gold in", CACHE)
     if "--predictions" in sys.argv:
         for label, name in REFERENCE_SYSTEMS:
             print(label, "->", fetch_system(name))
