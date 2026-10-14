@@ -1,0 +1,13 @@
+{
+  "feature_set": "e",
+  "per_pair": false,
+  "lambda": 0.001,
+  "clip": 5.0,
+  "loss": "soft-label BCE, L2 on weights (mean loss), L-BFGS",
+  "train_features": "data/features_dev_head.npz",
+  "train_split": "dev",
+  "n_train_docs": 504,
+  "predict_features": "data/features_test_head.npz",
+  "predict_split": "test",
+  "n_features": 96
+}
