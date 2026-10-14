@@ -1,0 +1,87 @@
+{
+  "model": "andreasmartin/apertus-v1.5-8b-text",
+  "model_sha": "c0e7eeb69c55c7810c91de3a1f97dde4d4b14b01",
+  "split": "test",
+  "final": true,
+  "dry_run": false,
+  "n_docs": {
+    "de": 56,
+    "fr": 56,
+    "it": 56
+  },
+  "code_sha256": {
+    "apertus.py": "6a5128cc99cdd8e717a4b7c6dc6c20d2f1103e1768d63da1ac985f608beb4285",
+    "extract.py": "af1500d78ac191aecb617b71a38c5e8148dc25b352998dd2cb2bc82a6d773b21",
+    "data.py": "eec035f240454a408cdb8f85ffcccf5590bb80031a5e3e07a3a253a63edad683"
+  },
+  "frames": {
+    "alone": "[BOS] {NameX}:\\n X",
+    "cond": "[BOS] {NameY}:\\n Y \\n\\n{NameX}:\\n X",
+    "names": {
+      "en": "English",
+      "de": "German",
+      "fr": "French",
+      "it": "Italian"
+    }
+  },
+  "state_indices": "0 = embeddings, l = output of decoder layer l (1..31), 32 = final norm output",
+  "diffalign": "1 - max cos to the other doc's subwords (doc positions only), mean over the word's subwords; cent subtracts, per layer, the mean over all doc subwords of X and Y of the pair; alone: X alone vs Y alone; cond: X from cond_X vs Y from cond_Y",
+  "state_layers": [],
+  "state_pooling": "mean over the word's subwords, cond pass of X, bfloat16",
+  "torch": "2.11.0+cu128",
+  "transformers": "5.19.0",
+  "timing": {
+    "alone": {
+      "passes": 336,
+      "tokens": 205733,
+      "seconds": 268.5090112686157
+    },
+    "cond": {
+      "passes": 336,
+      "tokens": 411466,
+      "seconds": 525.5481028556824
+    }
+  },
+  "wall_seconds": 899.472913980484,
+  "max_abs_state": [
+    2.578125,
+    90.744140625,
+    167.423828125,
+    181.20458984375,
+    206.09033203125,
+    244.65655517578125,
+    269.10986328125,
+    333.76104736328125,
+    373.97979736328125,
+    445.5537109375,
+    532.9912109375,
+    500.0537109375,
+    551.0779418945312,
+    768.4912109375,
+    613.26953125,
+    676.6644897460938,
+    1329.4736328125,
+    1921.6611328125,
+    2065.5986328125,
+    2280.8486328125,
+    2470.5048828125,
+    2484.8798828125,
+    2764.7548828125,
+    2862.6923828125,
+    3230.9736328125,
+    3579.6611328125,
+    3733.5048828125,
+    3867.5732421875,
+    3942.9482421875,
+    4194.0107421875,
+    4784.79248046875,
+    5429.65185546875,
+    24.128103256225586
+  ],
+  "n_words": 150434,
+  "file_bytes": {
+    "__notebook__.ipynb": 140865,
+    "features.npz": 92670874,
+    "index.tsv": 4086054
+  }
+}
