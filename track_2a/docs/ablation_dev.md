@@ -76,8 +76,9 @@ values are in the source docs.
   to smooth were picked on all dev. The choice was the same when repeated on
   dev/train, so the selection effect looks small, but the unsupervised 36.4 is
   still not a held-out number.
-- The paper's tables report test, so they are not comparable to these dev rows.
-  The paper baselines above are the released predictions rescored on dev.
+- The paper scores the whole dataset (dev and test together), so its tables are
+  not directly comparable to these dev rows. The paper baselines above are the
+  released predictions rescored on dev.
 
 ## Prompting baseline (30-document subset, not comparable)
 

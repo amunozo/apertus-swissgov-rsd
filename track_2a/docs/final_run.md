@@ -105,6 +105,10 @@ uv run python -m rsd.head fit-predict \
 
 Afterwards, commit `data/features_test_head.npz` and `data/predictions_test/`,
 then run `make run` from a clean clone: its TEST line must match (d).
+Since commit `895f88d`, the Docker build fetches the test texts and gold at build
+time (`python -m official_eval.fetch --test`), so `make run` does not download
+anything when it runs. It prints only the TEST line; the DEV/VAL line appears
+only when `data/features_test_head.npz` is absent.
 
 ### (d) Official evaluation on test
 

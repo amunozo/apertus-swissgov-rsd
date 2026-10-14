@@ -34,6 +34,10 @@ Protocols (Spearman x100, global per pair, macro mean):
    dev/train), score dev/val.
 The final configuration (feature set, shared vs per-pair) is chosen by the
 inner-CV score on dev/train only.
+That rule picked feature set (e) per-pair (40.5 vs 40.4 for shared). After
+seeing the dev results, the final configuration was switched to shared, lambda
+1e-3 (FINAL_PER_PAIR = False). This was a post hoc choice on a tie; see
+docs/scalar_head_dev_results.md.
 
 Baseline (no training): DiffAlign cond raw L14 +smooth7 (rsd.unsupervised).
 """

@@ -157,8 +157,8 @@ which matches the local metric:
   Qwen too. It uses the fact that gold differences come in spans of
   neighbouring words. That is a property of the labels, not of the model.
 - The best DiffAlign layer was chosen on dev (see the caveat). The paper's
-  Table 3 numbers are not on the dev split, so they are not directly
-  comparable to these dev numbers; compare with the released predictions
+  Table 3 numbers are on the whole dataset (dev and test together), not the dev
+  split, so they are not directly comparable to these dev numbers; compare with the released predictions
   rescored on dev, as above.
 - Massive activations: at document positions, max |state| is about 5.7k (layer 31).
   The ~119k values seen in the smoke test sit at the BOS or header positions,

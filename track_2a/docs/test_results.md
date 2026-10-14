@@ -15,8 +15,12 @@ uv run python -m official_eval.run data/predictions_test/apertus_head_ --final  
 # (e) bootstrap snippet from docs/final_run.md (rsd.metrics.bootstrap_ci)
 ```
 
-The predictions in `data/predictions_test/apertus_head_*` were frozen and
-committed before they were scored. The head is scalar head (e), shared across
+The prediction files in `data/predictions_test/apertus_head_*` were written
+(16:05:02) before the test gold was first downloaded (16:05:07), and so before
+any scoring. They were committed at 16:05:45 (commit `57ab49b`) and have not
+changed since (`git diff 57ab49b HEAD -- track_2a/data/predictions_test` is
+empty). The test texts, needed to build the predictions, were on disk from
+16:05:01. The head is scalar head (e), shared across
 the three pairs, 96 features, lambda 1e-3, fitted on all 504 dev documents
 (`apertus_head_config.json`).
 
@@ -122,5 +126,6 @@ estimate of roughly 38-40, at the lower end.
 | Kaggle kernel | `amunozo/rsd-extract-test` (kernel version number not recorded in the output files) |
 | Head config | feature set e, shared (`per_pair: false`), lambda 1e-3, clip 5.0, soft-label BCE with L2, L-BFGS, 96 features, trained on 504 dev documents |
 
-Full `meta.json`: `kaggle/outputs/04_extract_test/meta.json`. Head config:
+Full `meta.json`: `docs/final_run_meta.json` (a committed copy of
+`kaggle/outputs/04_extract_test/meta.json`, which is gitignored). Head config:
 `data/predictions_test/apertus_head_config.json`.

@@ -43,12 +43,17 @@ uv run python -m official_eval.reference              # all released systems
   (dev + test) gold file. We never download that file, so this path fails
   with FileNotFoundError, as intended.
 - `run.py` calls `main()` with `dev`. The `test` split is scored only with
-  `final=True` (downloads the test gold), for the final run.
+  `final=True` (uses the test gold, downloading it if it is not in `cache/`),
+  for the final run.
 
 ## Test-split hygiene
 
-Development only downloads dev gold files. Released prediction files contain
+Development (without `--test`) only downloads dev gold files. Released prediction files contain
 dev and test rows together: `fetch.py` downloads them into memory and parses
 every row with `json.loads` to read its id. Only dev rows are kept and
 written; the test rows are discarded without being used. The only
 test-related file written to disk is the official `list_to_drop.txt` (ids only).
+With `fetch --test` (used by the Dockerfile, so that `make run` works offline)
+the test texts and the test gold are also saved to `cache/`. This only saves
+files; nothing is loaded or scored until the final run (`final=True`), which is
+also what `make run` does when `data/features_test_head.npz` exists.

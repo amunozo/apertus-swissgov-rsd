@@ -291,9 +291,17 @@ Spearman x 100):
 
 | Control | mean | What it shows |
 |---|---|---|
-| Train on shuffled gold labels | 2.3 | The score needs the real training labels. The pipeline itself (features, folds, scoring) does not create signal. |
-| Head predictions circularly shifted within each document side | 19.4 | Breaking word alignment but keeping each document's scores drops the score to the document-level part. The rest of the score depends on the right words. |
-| Gold document-side mean only (uses gold, not a system) | 21.0 | A reference for the document-level part. The head's own side-mean-only score is 19.9, close to this. |
+| Train on shuffled gold labels | 2.3 | The score needs the real training labels. The pipeline itself (features, folds, scoring) does not create signal. A later re-run with a different shuffle (seed 0) gives 3.2, so the exact value depends on the shuffle; the conclusion is the same. |
+| Train on document-side mean labels (each word's training label is the mean gold of its document side; scored against the real gold) | 21.0 | A head that can only learn "which documents differ more" scores about 21, far below 39.9. So the head learns from word-level labels. A later re-run of this control gives 21.0 exactly. |
+| "Head predictions circularly shifted within each document side" | 19.4 | **Not reproducible from the repo.** The reviewer's code is not in the repo, and the walkthrough describes it as shifted training labels, not shifted predictions. Later re-runs: training labels shifted by half the side length give 6.9; predictions shifted by 15 words give 20.4 and by 30 words give 16.1. So the value depends on the protocol, and it is not used in any conclusion. The shuffled and document-mean controls carry the argument. |
+
+Added after the fact (not part of the reviewer's controls): the gold document-side
+mean oracle, where every word gets the true mean gold label of its document side
+and no model is involved, scores 31.2 / 26.2 / 33.3, mean 30.3 on dev. The 21.0
+above is a different quantity: it is a head trained on those mean labels, not
+the oracle itself. An earlier version of this table labelled 21.0 as the gold
+oracle and compared it with the head's side-mean-only score of 19.9; that was
+wrong, and the comparison is dropped.
 
 ## Chosen final configuration (for Thursday)
 

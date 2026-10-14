@@ -40,9 +40,10 @@ Requirements: `runtime, hardware, API keys, model weights`
 make run
 ```
 
-Needs Docker and network access for the build (the image downloads the
-official evaluation code and the dev data from GitHub and Hugging Face at build
-time). It runs on CPU in about 1 minute, with an image of about 1 GB. No GPU,
+Needs Docker and network access for the build only. The image downloads the
+official evaluation code and the dev and test texts and gold from GitHub and
+Hugging Face at build time (`python -m official_eval.fetch --test`), so the run
+itself needs no network. It runs on CPU in about 1 minute, with an image of about 1 GB. No GPU,
 no model weights, no API key and no LLM endpoint are used.
 
 What it does:
@@ -50,9 +51,11 @@ What it does:
 1. Fits the scalar head (logistic regression, shared model, feature set e,
    lambda 1e-3) on cached Apertus features, with `python -m rsd.head fit-predict`.
 2. If `data/features_test_head.npz` exists, it trains on all of dev, predicts
-   the test split, and scores it with the official evaluation script.
-3. If that file does not exist, it runs the dev check: fit on dev/train,
-   predict dev/val, score with the official script, and say so.
+   the test split, and scores it with the official evaluation script. A normal
+   `make run` prints only the TEST line.
+3. If that file does not exist, it runs the dev check instead: fit on dev/train,
+   predict dev/val, score with the official script, and say so. The DEV/VAL
+   line appears only in this case.
 
 Predictions (official format), the fitted head, and `scores.json` go to
 `outputs/` (gitignored).

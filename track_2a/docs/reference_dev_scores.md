@@ -20,7 +20,7 @@ the mean of the three unrounded local per-pair scores. The official script's
 +- values use a bootstrap with `n_resamples=1`, so they are not shown.
 
 Notes:
-- The paper's tables report the test split, so these numbers differ from it.
+- The paper scores the whole SwissGov-RSD dataset (dev and test together, paper sections 5.4 and 6), so its numbers are not directly comparable to these dev numbers. Compare with the released predictions rescored on the same split, as here.
 - DiffAlign Qwen3-Embedding-8B is the check row: 19.1 / 12.4 / 17.9.
 
 | System | official EN-DE | official EN-FR | official EN-IT | local EN-DE | local EN-FR | local EN-IT | mean |
