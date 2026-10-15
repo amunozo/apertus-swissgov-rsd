@@ -2,7 +2,7 @@
 
 - **Track:** Track 2A — UZH: Detecting Cross-Lingual Semantic Differences in Swiss Government Websites (`SwissGov-RSD`)
 - **Event:** Online Stage (1–16 October 2026)
-- **Team:** Alberto Muñoz-Ortiz (solo)
+- **Team:** Alberto Muñoz Ortiz (solo)
 - **Demo / Artefacts:** Interactive token-level HTML heatmaps in `docs/heatmaps/index.html`; compact precomputed Apertus features in `data/features_dev_head.npz` and `data/features_test_head.npz`; frozen test predictions and fitted weights in `data/predictions_test/`; `make run` refits the head and reproduces the official test evaluation in Docker on CPU in ~1 minute.
 
 ## 1. Summary
