@@ -78,7 +78,7 @@ for all seven systems. Sorted by mean.
 
 The baselines are training-free, so they are not directly comparable to a
 head trained on 504 labelled dev documents. The dev table in
-`docs/ablation_dev.md` shows the same order of baseline scores (16.4 to 17.5
+`docs/ablation_dev.md` shows the same order of baseline scores (16.1 to 17.5
 for the three best on dev).
 
 ## Context: dev numbers

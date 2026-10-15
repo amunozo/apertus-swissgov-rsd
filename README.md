@@ -1,4 +1,6 @@
-# Hack Apertus — project template
+# Hack Apertus — Track 2A (UZH: SwissGov-RSD)
+
+> **Submission root: [`track_2a/`](track_2a/)** — see [`track_2a/README.md`](track_2a/README.md) and [`track_2a/technical_report.md`](track_2a/technical_report.md). To run the submission in Docker from a clean checkout: `cd track_2a && make run`.
 
 Template repository for [Hack Apertus](https://hackapertus.ch/) submissions.
 Every project keeps almost the same layout, so organizers and judges find the

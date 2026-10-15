@@ -303,10 +303,10 @@ the oracle itself. An earlier version of this table labelled 21.0 as the gold
 oracle and compared it with the head's side-mean-only score of 19.9; that was
 wrong, and the comparison is dropped.
 
-## Chosen final configuration (for Thursday)
+## Chosen final configuration
 
-**Recommended: feature set (e) (all 96 features), one shared model for the
-three pairs, lambda 1e-3. This is pending Alberto's confirmation.**
+**Final configuration: feature set (e) (all 96 features), one shared model for the
+three pairs, lambda 1e-3.**
 
 The pre-stated rule (best inner-CV score on dev/train) picked (e) per-pair,
 by 40.5 vs 40.4. We switched to shared after seeing the results. This is a
@@ -350,7 +350,7 @@ Expect roughly 38-40 on dev-like data. The per-fold spread above (+2.2 to
   document's dev/val row exactly (38.6 / 31.8 / 43.7, mean 38.0). A test
   checks this.
 
-Thursday, after the test features exist:
+Final-run commands (after the test features exist; see `docs/final_run.md`):
 
 ```
 uv run python -m rsd.features <test features.npz> data/features_test_head.npz
