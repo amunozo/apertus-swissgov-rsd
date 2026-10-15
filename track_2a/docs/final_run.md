@@ -1,5 +1,7 @@
 # Final run (test split, once)
 
+**Status: Done (2026-10-14; tag `final-run` = `4c804d4`; results in `docs/test_results.md`).**
+
 The test split is used once, in this run, from a frozen and tagged commit.
 Nothing below may be run before the code is frozen. All commands run from
 `track_2a/`.

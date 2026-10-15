@@ -140,9 +140,9 @@ which matches the local metric:
   exclude 0 for every pair. At the
   final layer, which is what the paper used, Apertus is much worse (6.9).
   Layer choice matters more than anything else here.
-- So the comparison is "middle-layer Apertus vs last-layer Qwen". Qwen at a
-  middle layer was not tested, so these numbers do not show that Apertus
-  itself is a better encoder than Qwen3-Embedding for this task.
+- So the comparison here is "middle-layer Apertus vs last-layer Qwen". See
+  `docs/qwen_control_dev_results.md` for the controlled experiment that runs
+  Qwen3-Embedding-8B across all 37 layers with the same recipe.
 - Part of the score is document-level. Giving every word its document side's
   mean score keeps 18.7 of the 36.4. Shuffling scores within each document
   side keeps only 9.0, and breaking the score-document alignment drops it to

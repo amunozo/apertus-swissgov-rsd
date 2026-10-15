@@ -113,7 +113,7 @@ Inside Docker (`make run`), `python -m rsd.pipeline` executes entirely on CPU in
 
 ### 3.1 Model Identity, Architecture, and Pinning
 
-- **Model ID and revision:** `andreasmartin/apertus-v1.5-8b-text`, pinned and asserted at Hugging Face commit `c0e7eeb69c55c7810c91de3a1f97dde4d4b14b01` (`src/rsd/apertus.py:23`, `src/rsd/extract.py:44`, `docs/final_run_meta.json`). If the upstream revision had changed between our development and test runs, an explicit assertion (`src/rsd/extract.py:253-254`) would have aborted execution rather than silently using different weights.
+- **Model ID and revision:** `andreasmartin/apertus-v1.5-8b-text`, pinned and asserted at Hugging Face commit `c0e7eeb69c55c7810c91de3a1f97dde4d4b14b01` (`src/rsd/apertus.py:23`, `src/rsd/extract.py:44`, `docs/final_run_meta.json`). The test run loads the weights by this pinned revision (`src/rsd/extract.py:253-255`), so an upstream change could not alter them.
 - **Checkpoint provenance:** The official `swiss-ai/Apertus-v1.5-8B` release is multimodal (Apertus 1.5 Omni). Following the hackathon resources guide, we use the community text-only conversion `andreasmartin/apertus-v1.5-8b-text` so that it loads cleanly with standard `transformers`. This conversion is derived from the instruction-tuned release (its tokenizer chat template begins with `"You are Apertus 1.5 Omni, a multimodal assistant..."`). Note that bitwise identity between the community conversion's text weights and the official multimodal checkpoint was not independently verified.
 - **Architecture:** ~8.05B parameters, 32 decoder layers yielding 33 hidden-state tensors per forward pass (`0` = token embeddings, `1..31` = decoder block outputs, `32` = final RMSNorm output immediately before `lm_head`), hidden dimension $d = 4096$, grouped-query attention (GQA) with 32 query heads sharing 8 key/value heads, and a non-gated MLP `down_proj(xIELU(up_proj(x)))` using the quadratic `xIELU` activation.
 
@@ -345,7 +345,7 @@ Features are z-scored using training-split statistics (`gold != -1` words only) 
 Our pre-stated selection rule (best inner 4-fold CV mean on `dev/train`) picked `(e)` per-pair over `(e)` shared by 0.1 points (**40.5** vs. **40.4**). After seeing the dev results, we switched to **`(e)` shared ($\lambda = 10^{-3}$)** for the final run. We disclose this as a post-hoc switch on a virtual tie, made for four reasons:
 1. The two configurations essentially tie in nested outer CV (**39.9** shared vs. **40.0** per-pair).
 2. Shared is stronger on `dev/val` (**38.0** vs. **37.6**), and its `dev/val` paired bootstrap CI on EN–FR (`[+0.6, +5.0]`) excludes zero whereas per-pair's (`[-0.5, +5.1]`) does not.
-3. Shared selects $\lambda = 10^{-3}$ in all 5 outer folds and on `dev/train`, whereas per-pair $\lambda$ jumps between $10^{-2}$ and $10^{-5}$ across folds.
+3. Shared selects $\lambda = 10^{-3}$ in all 5 outer folds and on `dev/train`, whereas for `(e)` per-pair $\lambda$ moves between $10^{-3}$ and $10^{-4}$ across folds ($10^{-3}$ once, $10^{-4}$ four times; for `(b)` and `(c)` per-pair it ranges from $10^{-2}$ to $10^{-5}$).
 4. Shared uses one-third as many parameters (96 weights + 1 intercept vs. $3 \times 97$).
 Because of this switch, `dev/val` is no longer strictly untouched for the shared-vs.-per-pair choice. Note also that we did not train a head on the 4,096-dimensional hidden states ("states head", dropped due to overfitting risk on 134 pages and time constraints) or test non-linear heads.
 
@@ -549,7 +549,7 @@ uv run python -m official_eval.run data/predictions_test/apertus_head_ --final
 | Official evaluation & baselines (GitHub) | `ZurichNLP/SwissGov-RSD` | `1807a42100e742ed03d337c54c4b9ea86995f565` |
 | Pre-test code freeze tag | `final-run` (`amunozo/apertus-swissgov-rsd`) | `4c804d40e8f528613e2237204f37a277141a3342` |
 
-The automated test suite (`make test` / `uv run pytest`, **26 test functions / 29 test items: 28 passed, 1 skipped** in the CPU `uv` environment across `tests/test_eval.py`, `tests/test_head.py`, and `tests/test_extract.py`) verifies:
+The automated test suite (`make test` / `uv run pytest`, **26 test functions / 29 test items: 28 passed, 1 skipped locally; 27 passed, 2 skipped on a clean clone** where one check skips when the gitignored Kaggle `features.npz` is absent, across `tests/test_eval.py`, `tests/test_head.py`, and `tests/test_extract.py`) verifies:
 - exact agreement between our local Spearman metric (`src/rsd/metrics.py`) and the official evaluation script on the released `Qwen3-Embedding-8B` dev predictions, plus deterministic `bootstrap_ci` and `paired_bootstrap`;
 - `dev/train` (134/pair) and `dev/val` (34/pair) split sizes, ID disjointness, and zero `page_en` overlap across all outer and inner `GroupKFold` splits;
 - `PermissionError` gates blocking accidental test-split access in `rsd.data.load_docs`, `rsd.head.fit_predict`, and `rsd.extract.main` (the last skipped when `torch` is not installed), plus identical `rsd.extract.main` wiring in `01_extract_dev.py` and `04_extract_test.py`;

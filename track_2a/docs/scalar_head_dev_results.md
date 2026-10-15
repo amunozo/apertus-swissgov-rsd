@@ -293,7 +293,7 @@ Spearman x 100):
 |---|---|---|
 | Train on shuffled gold labels | 2.3 | The score needs the real training labels. The pipeline itself (features, folds, scoring) does not create signal. A later re-run with a different shuffle (seed 0) gives 3.2, so the exact value depends on the shuffle; the conclusion is the same. |
 | Train on document-side mean labels (each word's training label is the mean gold of its document side; scored against the real gold) | 21.0 | A head that can only learn "which documents differ more" scores about 21, far below 39.9. So the head learns from word-level labels. A later re-run of this control gives 21.0 exactly. |
-| "Head predictions circularly shifted within each document side" | 19.4 | **Not reproducible from the repo.** The reviewer's code is not in the repo, and the walkthrough describes it as shifted training labels, not shifted predictions. Later re-runs: training labels shifted by half the side length give 6.9; predictions shifted by 15 words give 20.4 and by 30 words give 16.1. So the value depends on the protocol, and it is not used in any conclusion. The shuffled and document-mean controls carry the argument. |
+| "Head predictions circularly shifted within each document side" | 19.4 | **Not reproducible from the repo.** The reviewer's code is not in the repo, and an earlier note described it as shifted training labels rather than shifted predictions. Later re-runs: training labels shifted by half the side length give 6.9; predictions shifted by 15 words give 20.4 and by 30 words give 16.1. So the value depends on the protocol, and it is not used in any conclusion. The shuffled and document-mean controls carry the argument. |
 
 Added after the fact (not part of the reviewer's controls): the gold document-side
 mean oracle, where every word gets the true mean gold label of its document side
@@ -317,7 +317,8 @@ Reasons for the switch:
 - **Shared is better on dev/val:** 38.0 vs 37.6. Its EN-FR CI also excludes
   0; per-pair's does not.
 - **Shared's lambda is stable.** Lambda 1e-3 was chosen in all 5 outer folds
-  and on dev/train. Per-pair lambda jumps from 1e-2 to 1e-5 across folds.
+  and on dev/train. For (e) per-pair, lambda moves between 1e-3 and 1e-4 across
+  folds (1e-3 once, 1e-4 four times; 1e-2 to 1e-5 for sets b and c).
 - **Shared has a third of the parameters.**
 
 Lambda: we keep 1e-3, the value every selection step picked. Because of the
@@ -344,8 +345,8 @@ Expect roughly 38-40 on dev-like data. The per-fold spread above (+2.2 to
   - `<prefix>model.npz` (standardiser means and stds, weights, intercept,
     feature names);
   - `<prefix>config.json`.
-- **Test needs `--final`.** Predicting test is refused without it, and that
-  path has not been run.
+- **Test needs `--final`.** Predicting test is refused without it (run once for
+  the final test evaluation; see `docs/test_results.md`).
 - **Checked on dev:** fit on dev/train, predict dev/val. It reproduces this
   document's dev/val row exactly (38.6 / 31.8 / 43.7, mean 38.0). A test
   checks this.
@@ -373,7 +374,8 @@ uv run python -m rsd.head fit-predict --final --predict-split test \
   around L14. Still, the CV numbers are slightly optimistic.
 - **dev/val is small** (34 pages per pair). Its CIs are wide; for EN-FR the
   per-pair model's CI includes 0.
-- **The per-pair lambda is unstable** across outer folds (1e-2 to 1e-5). The
+- **The per-pair lambda varies** across outer folds (1e-3 to 1e-4 for set e;
+  1e-2 to 1e-5 for sets b and c). The
   CV curve is flat, so this does not matter much for the score. It does mean
   the per-pair models are not well identified.
 - **The within-document vs document-level split and the official-script

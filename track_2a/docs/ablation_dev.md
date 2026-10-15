@@ -112,7 +112,7 @@ Reproduce with `uv run python -m rsd.annotators`.
 
 | Comparison (89 documents) | Spearman x100 [95% CI] |
 |---|---|
-| annotator 1 vs annotator 2 (human ceiling) | 18.9 [10.6, 28.3] |
+| annotator 1 vs annotator 2 | 18.9 [10.6, 28.3] |
 | DiffAlign cond raw L14 +smooth7 vs annotator 1 | 20.5 [15.5, 25.6] |
 | DiffAlign cond raw L14 +smooth7 vs annotator 2 (the main dev gold) | 38.9 [33.5, 44.2] |
 | Scalar head (e), out-of-fold, vs annotator 1 | 21.5 [16.2, 26.8] |
@@ -149,7 +149,7 @@ for EN-IT. This is not directly comparable to our 18.9:
   possible explanation is that the official dev/train and dev/val labels come
   from the first run, but nothing in the repo confirms that, so treat it as a
   guess. The EN-DE German subset was also re-annotated in March/April 2026
-  (see `notes/uzh/swissgov_rsd_paper.md`).
+  (per the Hugging Face dataset card).
 - So we should not quote 18.9 as the human agreement of the dataset. The
   paper's 56.14 is the figure for the released annotations. Our number is
   agreement between the released annotation (annotator 2) and the other label

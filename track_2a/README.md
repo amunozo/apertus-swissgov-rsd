@@ -54,7 +54,7 @@ Requirements: `Docker (CPU only, x86-64, ~1 GB disk); network access during dock
 
 ### What `make run` does
 
-1. **Builds the CPU Docker image (`swissgov-rsd`):** installs locked Python dependencies (`uv.lock`), copies `src/` and `data/`, and runs `python -m official_eval.fetch --test` to cache the pinned official evaluation code (`ZurichNLP/SwissGov-RSD` @ `1807a42`) and the pinned dev and test texts and gold labels (`ZurichNLP/SwissGov-RSD` @ `f16aa05`).
+1. **Builds the CPU Docker image (`swissgov-rsd`):** installs locked Python dependencies (`uv.lock`), copies `src/` and `data/`, and runs `python -m official_eval.fetch --test` to cache the pinned official evaluation code and gold labels from GitHub (`ZurichNLP/SwissGov-RSD` @ `1807a42`) and the pinned dev and test texts from Hugging Face (`ZurichNLP/SwissGov-RSD` @ `f16aa05`).
 2. **Fits the head and evaluates on test:** runs `python -m rsd.pipeline --out outputs`. Because `data/features_test_head.npz` is committed, `make run` executes the test branch:
    - Fits the shared 96-feature logistic regression head ($\lambda = 10^{-3}$) on all 504 dev documents (`data/features_dev_head.npz`).
    - Predicts all 168 test documents (`data/features_test_head.npz`) and writes official-format JSONL files to `outputs/test/head_{de,fr,it}.jsonl.jsonl`, along with `outputs/test/head_model.npz` and `outputs/test/head_config.json`.
