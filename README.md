@@ -1,5 +1,7 @@
 # Hack Apertus — Track 2A (UZH: SwissGov-RSD)
 
+> **Winner of Hack Apertus 2026, Track 2A** ([announcement](https://lnkd.in/p/ebDrTf2X)).
+
 > **Submission root: [`track_2a/`](track_2a/)** — see [`track_2a/README.md`](track_2a/README.md) and [`track_2a/technical_report.md`](track_2a/technical_report.md). To run the submission in Docker from a clean checkout: `cd track_2a && make run`.
 
 Repository for the [Hack Apertus](https://hackapertus.ch/) Track 2A submission addressing the **University of Zurich (UZH)** challenge (*Detecting Cross-Lingual Semantic Differences in Swiss Government Websites*).

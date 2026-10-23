@@ -1,5 +1,7 @@
 # UZH Challenge: Token-Level Cross-Lingual Semantic Differences (SwissGov-RSD)
 
+> **Winner of Hack Apertus 2026, Track 2A** ([announcement](https://lnkd.in/p/ebDrTf2X)).
+
 Submission for Track 2A of Hack Apertus (Online Stage, October 2026) addressing the **University of Zurich (UZH)** challenge: *Detecting Cross-Lingual Semantic Differences in Swiss Government Websites*.
 
 ## Overview
